@@ -29,7 +29,6 @@ jobs:
       with:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        # key: format('{0}-maven-{1}', runner.os, hashFiles('**/pom.xml')
         restore-keys: |
           ${{ runner.os }}-maven
     - name: Build with Maven
