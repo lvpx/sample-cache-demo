@@ -28,6 +28,10 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    - name: Print tar version
+      run: |
+        tar --version
+
     - name: Cache Maven repository
       uses: actions/cache@v3
       with:
