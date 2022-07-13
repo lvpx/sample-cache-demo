@@ -11,10 +11,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
-    # runs-on: ubuntu-latest
-    # runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
@@ -31,6 +28,7 @@ jobs:
     - name: Print tar version
       run: |
         tar --version
+        zstd --version
 
     - name: Cache Maven repository
       uses: actions/cache@v3
