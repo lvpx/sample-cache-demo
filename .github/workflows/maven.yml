@@ -31,7 +31,7 @@ jobs:
         zstd --version
 
     - name: Cache Maven repository
-      uses: pdotl/cache@5fd066637a8f8e5608f61fa84328d1b6106a978e
+      uses: pdotl/cache@bf8f27914174af196e8d78a52157a7912b5f03f2
       with:
         path: ~/.m2/repository
         key: ${{ matrix.os }}-maven-${{ hashFiles('**/pom.xml') }}
