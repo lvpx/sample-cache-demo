@@ -19,6 +19,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK
+      id: setup_jdk
       uses: actions/setup-java@v3
       with:
         java-version: '18'
@@ -26,16 +27,19 @@ jobs:
         cache: maven
 
     - name: Print tar version
+      id: print_tar_version
       run: |
         tar --version
         zstd --version
 
     - name: Cache Maven repository
-      uses: pdotl/cache@5b3cfe3a4da38d20fb0128ac5c32834c4add759c
+      uses: actions/cache@v3
+      id: cache_maven
       with:
         path: ~/.m2/repository
         key: ${{ matrix.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ matrix.os }}-maven
     - name: Build with Maven
-      run: mvn -X -B package --file pom.xml
+      id: build_maven
+      run: mvn -B package --file pom.xml
