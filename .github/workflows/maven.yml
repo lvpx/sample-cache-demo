@@ -24,6 +24,7 @@ jobs:
       with:
         java-version: '18'
         distribution: 'temurin'
+        cache: maven
 
     - name: Print tar version
       id: print_tar_version
