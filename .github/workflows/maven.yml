@@ -10,8 +10,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-22.04
+  cross-os:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, self-hosted, macos-latest, windows-2022, windows-2019]
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK
@@ -20,7 +24,6 @@ jobs:
       with:
         java-version: '18'
         distribution: 'temurin'
-        cache: maven
 
     - name: Print tar version
       id: print_tar_version
@@ -33,32 +36,4 @@ jobs:
       id: cache_maven
       with:
         path: ~/.m2/repository
-        key: maven-key
-        restore-keys: |
-          maven
-  restore_test:
-    runs-on: windows-2022
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK
-      id: setup_jdk
-      uses: actions/setup-java@v3
-      with:
-        java-version: '18'
-        distribution: 'temurin'
-        cache: maven
-
-    - name: Print tar version
-      id: print_tar_version
-      run: |
-        tar --version
-        zstd --version
-      
-    - name: Cache Maven repository
-      uses: actions/cache@v3
-      id: cache_maven
-      with:
-        path: ~/.m2/repository
-        key: invalid-key
-        restore-keys: |
-          maven-key
+        key: cross-os-maven-key
