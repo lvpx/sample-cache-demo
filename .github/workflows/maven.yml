@@ -38,6 +38,8 @@ jobs:
       run: |
         tar --version
         zstd --version
+        unzstd --version
+        zstdmt --version
 
     - name: Cache Maven repository
       uses: actions/cache@v3
