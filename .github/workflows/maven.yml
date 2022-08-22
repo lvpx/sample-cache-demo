@@ -63,3 +63,10 @@ jobs:
         requirement_files: |
           **/requirements.txt
           PKG-INFO
+
+    - name: Install Python dependencies
+      if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+      run: |
+        python --version
+        pip install --upgrade pip wheel
+        pip install --upgrade -r requirements.txt
