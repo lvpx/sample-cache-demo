@@ -25,13 +25,13 @@ jobs:
         echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
 
     - uses: actions/checkout@v3
-    - name: Set up JDK
-      id: setup_jdk
-      uses: actions/setup-java@v3
-      with:
-        java-version: '18'
-        distribution: 'temurin'
-        cache: maven
+    # - name: Set up JDK
+    #   id: setup_jdk
+    #   uses: actions/setup-java@v3
+    #   with:
+    #     java-version: '18'
+    #     distribution: 'temurin'
+    #     cache: maven
 
     - name: Print tar version
       id: print_tar_version
@@ -39,9 +39,27 @@ jobs:
         tar --version
         zstd --version
 
-    - name: Cache Maven repository
-      uses: actions/cache@v3
-      id: cache_maven
+    # - name: Cache Maven repository
+    #   uses: actions/cache@v3
+    #   id: cache_maven
+    #   with:
+    #     path: ~/.m2/repository
+    #     key: ${{ github.run_number }}-cross-os-maven-key
+
+    - name: Set up Python 
+      uses: actions/setup-python@v4
       with:
-        path: ~/.m2/repository
-        key: ${{ github.run_number }}-cross-os-maven-key
+        python-version: 3.10
+    
+    - name: Install system dependencies
+      if: runner.os == 'Linux'
+      run: sudo apt-get install unrar p7zip-full par2
+    
+    - name: Cache Python virtualenv
+      uses: syphar/restore-virtualenv@v1.2
+      id: cache-virtualenv
+      with:
+        custom_cache_key_element: "ci"
+        requirement_files: |
+          **/requirements.txt
+          PKG-INFO
