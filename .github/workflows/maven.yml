@@ -38,11 +38,9 @@ jobs:
       run: |
         tar --version
         zstd --version
-        unzstd --version
-        zstdmt --version
 
     - name: Cache Maven repository
-      uses: actions/cache@v3.0.8
+      uses: actions/cache@v3
       id: cache_maven
       with:
         path: ~/.m2/repository
