@@ -45,3 +45,14 @@ jobs:
       with:
         path: ~/.m2/repository
         key: ${{ github.run_number }}-cross-os-maven-key
+    
+    - name: Download all dependencies and build
+      run: mvn -B package --file pom.xml
+
+    - name: Compress using zstd
+      run: |
+        tar --zstd -cf "repo.tar.zst" -C ~/.m2/repository
+    
+    - name : Decompress 
+      run: |
+        tar --zstd -xf "repo.tar.zst" -C ~/.m2/repository
