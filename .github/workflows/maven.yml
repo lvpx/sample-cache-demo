@@ -48,11 +48,12 @@ jobs:
     
     - name: Download all dependencies and build
       run: mvn -B package --file pom.xml
+      if: steps.cache_maven.outputs.cache-hit != 'true'
 
     - name: Compress using zstd
       run: |
-        tar --zstd -cf repo.tar.zst -C -P ~/.m2/repository
+        tar --zstd -cf repo.tar.zst -C ~/.m2/repository -P
     
     - name : Decompress 
       run: |
-        tar --zstd -xf "repo.tar.zst" -C ~/.m2/repository
+        tar --zstd -xf "repo.tar.zst" -C ~/.m2/repository -P 
