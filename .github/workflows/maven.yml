@@ -43,7 +43,7 @@ jobs:
       uses: actions/cache@v3
       id: cache_maven
       with:
-        path: ~/.m2/repository
+        path: ~/target
         key: ${{ github.run_number }}-cross-os-maven-key
     
     - name: Download all dependencies and build
@@ -52,8 +52,8 @@ jobs:
 
     - name: Compress using zstd
       run: |
-        tar --zstd -cf repo.tar.zst -C ~/.m2/repository -P
+        tar --zstd -cf repo.tar.zst -C target -P
     
     - name : Decompress 
       run: |
-        tar --zstd -xf "repo.tar.zst" -C ~/.m2/repository -P 
+        tar --zstd -xf "repo.tar.zst" -C target -P
