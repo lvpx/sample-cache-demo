@@ -51,7 +51,7 @@ jobs:
 
     - name: Compress using zstd
       run: |
-        tar --zstd -cf -C -P ~/.m2/repository
+        tar --zstd -cf repo.tar.zst -C -P ~/.m2/repository
     
     - name : Decompress 
       run: |
